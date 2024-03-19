@@ -4,6 +4,7 @@ import com.example.todoapp.model.TaskRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,5 +20,11 @@ public class TaskController {
     ResponseEntity<?> readAllTasks() {
         logger.warn("Exposing all the tasks!");
         return ResponseEntity.ok(taskRepository.findAll());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/tasks")
+    ResponseEntity<?> readAllTasks(Pageable page) {
+        logger.info("Custom pageable");
+        return ResponseEntity.ok(taskRepository.findAll(page));
     }
 }
