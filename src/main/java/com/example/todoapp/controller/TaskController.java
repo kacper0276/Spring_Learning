@@ -6,14 +6,15 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RepositoryRestController
+//@RepositoryRestController
+@RestController
 @AllArgsConstructor
 public class TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
