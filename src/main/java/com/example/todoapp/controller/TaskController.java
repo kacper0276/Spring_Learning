@@ -15,7 +15,7 @@ public class TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository taskRepository;
 
-    @RequestMapping(method = RequestMethod.GET, path = "/tasks")
+    @RequestMapping(method = RequestMethod.GET, path = "/tasks", params = {"!sort", "!page", "!size"}) // Pewność że nie zostały wykorzystane te parametry
     ResponseEntity<?> readAllTasks() {
         logger.warn("Exposing all the tasks!");
         return ResponseEntity.ok(taskRepository.findAll());
