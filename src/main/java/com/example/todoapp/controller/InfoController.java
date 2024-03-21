@@ -11,7 +11,7 @@ public class InfoController {
     @Autowired
     private DataSourceProperties dataSource;
     @Value("${task.allowMultipleTasksFromTemplate}")
-    private String myProp;
+    private boolean myProp;
 
     @GetMapping("/info/url")
     String url() {
@@ -19,7 +19,7 @@ public class InfoController {
     }
 
     @GetMapping("/info/prop")
-    String myProp() {
+    boolean myProp() {
         return myProp;
     }
 }
