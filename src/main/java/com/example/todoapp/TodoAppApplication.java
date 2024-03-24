@@ -4,6 +4,7 @@ import jakarta.validation.Validator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
@@ -17,4 +18,5 @@ public class TodoAppApplication{
 //	private Validator validator() {
 //		return new LocalValidatorFactoryBean();
 //	}
+
 }
