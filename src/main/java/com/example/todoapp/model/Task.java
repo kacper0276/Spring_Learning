@@ -24,4 +24,9 @@ public class Task {
 
     @Column(name = "deadline")
     private LocalDateTime deadline;
+
+    private LocalDateTime createdOn;
+
+//    @Transient - oznacza że tego pola nie chcemy zapisywać do bazy danych, ale w request możemy tam wrzucic jakas wartosc
+    private LocalDateTime updatedOn;
 }
