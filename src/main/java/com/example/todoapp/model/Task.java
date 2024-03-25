@@ -2,6 +2,7 @@ package com.example.todoapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +26,12 @@ public class Task {
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdOn;
 
 //    @Transient - oznacza że tego pola nie chcemy zapisywać do bazy danych, ale w request możemy tam wrzucic jakas wartosc
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private LocalDateTime updatedOn;
 }
