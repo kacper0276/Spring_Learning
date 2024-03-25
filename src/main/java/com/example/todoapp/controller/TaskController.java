@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,17 @@ public class TaskController {
         }
         toUpdate.setId(id);
         taskRepository.save(toUpdate);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Transactional // Na początku transaction begin a na końcu transaction commit, jeżeli poleci exception to cała operacja się nie wykona, wszystkie zmiany wycofane
+    @PatchMapping(path = "/tasks/{id}")
+    ResponseEntity<?> toggleTask(@PathVariable int id) { // zamiast @Param można użyć @PathVariable("id") int id
+        if(!taskRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        taskRepository.findById(id)
+                .ifPresent(task -> task.setDone(!task.isDone()));
         return ResponseEntity.noContent().build();
     }
 }
