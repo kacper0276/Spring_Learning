@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     private int id;
 
     @Column(name = "description")
@@ -34,4 +36,20 @@ public class Task {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private LocalDateTime updatedOn;
+
+    public void updateFrom(final Task source) {
+        description = source.description;
+        done = source.done;
+        deadline = source.deadline;
+    }
+
+    @PrePersist // Uruchomi się moment przed zapisaniem do bazy
+    void prePersist() {
+        createdOn = LocalDateTime.now();
+    }
+
+    @PreUpdate // Uruchomi się przed update
+    void preMerge() {
+        updatedOn = LocalDateTime.now();
+    }
 }

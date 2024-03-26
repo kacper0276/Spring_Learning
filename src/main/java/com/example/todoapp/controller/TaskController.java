@@ -38,12 +38,15 @@ public class TaskController {
         if(!taskRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        toUpdate.setId(id);
-        taskRepository.save(toUpdate);
+        taskRepository.findById(id)
+                .ifPresent(task -> {
+                    task.updateFrom(toUpdate);
+                    taskRepository.save(task);
+                });
         return ResponseEntity.noContent().build();
     }
 
-    @Transactional // Na początku transaction begin a na końcu transaction commit, jeżeli poleci exception to cała operacja się nie wykona, wszystkie zmiany wycofane
+    @Transactional // Na początku transaction begin a na końcu transaction commit, jeżeli poleci exception to cała operacja się nie wykona, wszystkie zmiany wycofane, samo się zapisze, albo transactional albo repository.save() wszędzie
     @PatchMapping(path = "/tasks/{id}")
     ResponseEntity<?> toggleTask(@PathVariable int id) { // zamiast @Param można użyć @PathVariable("id") int id
         if(!taskRepository.existsById(id)) {
