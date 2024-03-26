@@ -23,6 +23,7 @@ public class Task {
     @NotBlank(message = "Opis nie może być pusty")
     private String description;
 
+    @Column(columnDefinition = "BOOLEAN")
     private boolean done;
 
     @Column(name = "deadline")
