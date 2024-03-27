@@ -1,6 +1,6 @@
 package com.example.todoapp.model;
 
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import lombok.AccessLevel;
@@ -9,8 +9,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@MappedSuperclass // Oznacza że to klasa bazowa
-public abstract class BaseAuditableEntity {
+//@MappedSuperclass // Oznacza że to klasa bazowa
+@Embeddable // Oznacza że ta klasa jest do osadzenie w innym miejscu
+public class Audit {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     private LocalDateTime createdOn;

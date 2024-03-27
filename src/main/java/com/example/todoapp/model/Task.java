@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "tasks")
 @Getter
 @Setter
-public class Task extends BaseAuditableEntity {
+public class Task  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -29,6 +29,13 @@ public class Task extends BaseAuditableEntity {
 
     @Column(name = "deadline")
     private LocalDateTime deadline;
+
+    @Embedded // Osadzamy obiekt ktory jest @Embeddable
+//    @AttributeOverride() Pojedyncze nadpisanie nazwy pola
+//    @AttributeOverrides({
+//            @AttributeOverride(column = @Column(name = "updatedOn"), name="updatedOn")
+//    })
+    private Audit audit = new Audit();
 
     public void updateFrom(final Task source) {
         description = source.description;
