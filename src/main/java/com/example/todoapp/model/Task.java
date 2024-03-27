@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "tasks")
 @Getter
 @Setter
-public class Task {
+public class Task extends BaseAuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -23,34 +23,16 @@ public class Task {
     @NotBlank(message = "Opis nie może być pusty")
     private String description;
 
+    // @Transient - oznacza że tego pola nie chcemy zapisywać do bazy danych, ale w request możemy tam wrzucic jakas wartosc
     @Column(columnDefinition = "BOOLEAN")
     private boolean done;
 
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private LocalDateTime createdOn;
-
-//    @Transient - oznacza że tego pola nie chcemy zapisywać do bazy danych, ale w request możemy tam wrzucic jakas wartosc
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private LocalDateTime updatedOn;
-
     public void updateFrom(final Task source) {
         description = source.description;
         done = source.done;
         deadline = source.deadline;
-    }
-
-    @PrePersist // Uruchomi się moment przed zapisaniem do bazy
-    void prePersist() {
-        createdOn = LocalDateTime.now();
-    }
-
-    @PreUpdate // Uruchomi się przed update
-    void preMerge() {
-        updatedOn = LocalDateTime.now();
     }
 }
