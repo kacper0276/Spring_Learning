@@ -20,8 +20,6 @@ public class TaskGroup {
     @NotBlank(message = "Opis nie może być pusty")
     private String description;
     private boolean done;
-    @Embedded
-    private Audit audit = new Audit();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "group") // FetchType.Eager - każdorazowo jak zaciągamy grupę to też Taski, Lazy - nie, Cascade - jeśli coś robimy w grupie to taskom też
     private Set<Task> tasks;
 
