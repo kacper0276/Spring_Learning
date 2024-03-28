@@ -17,4 +17,7 @@ interface SqlTaskRepository extends TaskRepository, JpaRepository<Task, Integer>
     @Override
     @Query(nativeQuery = true, value = "select * from tasks where id=:id")
     Optional<Task> findById(@Param("id") Integer i);
+
+    @Override
+    boolean existsByDoneIsFalseAndGroup_Id(Integer groupId);
 }
