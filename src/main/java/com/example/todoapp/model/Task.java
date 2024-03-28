@@ -34,11 +34,14 @@ public class Task  {
     private Audit audit = new Audit();
     @ManyToOne // Wiele tasków do jednej grupy, Cascade - task zarządza grupą
     @JoinColumn(name = "task_group_id")
+    @Getter(AccessLevel.PACKAGE)
+    @Setter(AccessLevel.NONE)
     private TaskGroup group;
 
     public void updateFrom(final Task source) {
         description = source.description;
         done = source.done;
         deadline = source.deadline;
+        group = source.group;
     }
 }
