@@ -18,24 +18,23 @@ public class Task  {
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     private int id;
-
     @Column(name = "description")
     @NotBlank(message = "Opis nie może być pusty")
     private String description;
-
     // @Transient - oznacza że tego pola nie chcemy zapisywać do bazy danych, ale w request możemy tam wrzucic jakas wartosc
     @Column(columnDefinition = "BOOLEAN")
     private boolean done;
-
     @Column(name = "deadline")
     private LocalDateTime deadline;
-
     @Embedded // Osadzamy obiekt ktory jest @Embeddable
 //    @AttributeOverride() Pojedyncze nadpisanie nazwy pola
 //    @AttributeOverrides({
 //            @AttributeOverride(column = @Column(name = "updatedOn"), name="updatedOn")
 //    })
     private Audit audit = new Audit();
+    @ManyToOne // Wiele tasków do jednej grupy, Cascade - task zarządza grupą
+    @JoinColumn(name = "task_group_id")
+    private TaskGroup group;
 
     public void updateFrom(final Task source) {
         description = source.description;
