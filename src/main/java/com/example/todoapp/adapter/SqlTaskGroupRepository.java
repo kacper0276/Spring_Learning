@@ -12,7 +12,7 @@ import java.util.List;
 interface SqlTaskGroupRepository extends TaskGroupRepository, JpaRepository<TaskGroup, Integer> {
     @Override
     @Query("select * from TaskGroup g join fetch g.tasks") // NativeQuery = false - zapytanie na encjach, NativeQuery = true - zapytanie na tabelach bazodanowych
-    List<TaskGroup> findAll();
+    List<TaskGroup> findAll(); // Domyślnie inner join, jeśli grupa nie ma tasków to się nic nie zwróci
 
     @Override
     boolean existsByDoneIsFalseAndProject_Id(Integer projectId);
