@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 @Table(name = "task_groups")
 @Getter
 @Setter
+@NoArgsConstructor
 public class TaskGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,7 @@ public class TaskGroup {
     private boolean done;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "group") // FetchType.Eager - każdorazowo jak zaciągamy grupę to też Taski, Lazy - nie, Cascade - jeśli coś robimy w grupie to taskom też
     private Set<Task> tasks;
-
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 }

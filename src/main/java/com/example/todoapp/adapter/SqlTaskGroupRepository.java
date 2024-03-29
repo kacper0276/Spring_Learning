@@ -13,4 +13,7 @@ interface SqlTaskGroupRepository extends TaskGroupRepository, JpaRepository<Task
     @Override
     @Query("select * from TaskGroup g join fetch g.tasks") // NativeQuery = false - zapytanie na encjach, NativeQuery = true - zapytanie na tabelach bazodanowych
     List<TaskGroup> findAll();
+
+    @Override
+    boolean existsByDoneIsFalseAndProject_Id(Integer projectId);
 }
