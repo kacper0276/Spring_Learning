@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
 @Setter
 public class GroupReadModel {
     private String description;
-    /**
-     * Deadline form the latest task in group.
-     */
+//  Deadline form the latest task in group.
     private LocalDateTime deadline;
     private Set<GroupTaskReadModel> tasks;
 

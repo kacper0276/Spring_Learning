@@ -3,7 +3,6 @@ package com.example.todoapp.model.projection;
 import com.example.todoapp.model.TaskGroup;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
