@@ -5,12 +5,16 @@ import com.example.todoapp.model.TaskGroupRepository;
 import com.example.todoapp.model.TaskRepository;
 import com.example.todoapp.model.projection.GroupReadModel;
 import com.example.todoapp.model.projection.GroupWriteModel;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON) // Singleton - domyślna wartosc (jedna instancja dla calej aplikacji)
+//@RequestScope - jedna instancja na cale zadanie
 public class TaskGroupService {
     private TaskGroupRepository repository;
     private TaskRepository taskRepository;
