@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -30,10 +30,8 @@ class ProjectServiceTest {
         // system under test
         var toTest = new ProjectService(null, mockGroupRepository, mockConfig);
 
-        // when - wołamy testowaną metode
-        toTest.createGroup(LocalDateTime.now(), 0);
-
-        // then - sprawdzamy czy metoda daje wynik taki jaki chcemy
-
+        // when - wołamy testowaną metode + // then - sprawdzamy czy metoda daje wynik taki jaki chcemy
+        assertThatExceptionOfType(IllegalStateException.class)
+                .isThrownBy(() -> toTest.createGroup(LocalDateTime.now(), 0));
     }
 }
