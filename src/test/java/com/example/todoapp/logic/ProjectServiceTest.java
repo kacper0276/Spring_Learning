@@ -1,14 +1,17 @@
 package com.example.todoapp.logic;
 
-import com.example.todoapp.model.TaskGroup;
+
+import com.example.todoapp.TaskConfigurationProperties;
 import com.example.todoapp.model.TaskGroupRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProjectServiceTest {
 
@@ -16,30 +19,21 @@ class ProjectServiceTest {
     @DisplayName("should throw IllegalStateException when configured to allow just 1 group and other undone group exist")
     void createGroup_noMultipleGroupsConfig_And_openGroupExists_throwsIllegalStateException() {
         // given - miejsce gdzie przygotowujemy dane, mock - wydmuszka
-        var mockGroupRepository = new TaskGroupRepository() { // Klasa anonimowa
-            @Override
-            public List<TaskGroup> findAll() {
-                return null;
-            }
+        var mockGroupRepository = mock(TaskGroupRepository.class); // Jaką klase chcemy zamockowac
+        when(mockGroupRepository.existsByDoneIsFalseAndProject_Id(anyInt())).thenReturn(true);
+        // and
+        var mockTemplate = mock(TaskConfigurationProperties.Template.class);
+        when(mockTemplate.isAllowMultipleTasks()).thenReturn(false);
+        // and
+        var mockConfig = mock(TaskConfigurationProperties.class);
+        when(mockConfig.getTemplate()).thenReturn(mockTemplate);
+        // system under test
+        var toTest = new ProjectService(null, mockGroupRepository, mockConfig);
 
-            @Override
-            public Optional<TaskGroup> findById(Integer id) {
-                return Optional.empty();
-            }
-
-            @Override
-            public TaskGroup save(TaskGroup entity) {
-                return null;
-            }
-
-            @Override
-            public boolean existsByDoneIsFalseAndProject_Id(Integer projectId) {
-                return false;
-            }
-
-        };
         // when - wołamy testowaną metode
+        toTest.createGroup(LocalDateTime.now(), 0);
 
         // then - sprawdzamy czy metoda daje wynik taki jaki chcemy
+
     }
 }
