@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TempService {
-    @Autowired
+    @Autowired // Wstrzykiwanie zależności
     List<String> temp(TaskGroupRepository repository) {
         // FIXME: N+1 Selectow
         return repository.findAll().stream()
