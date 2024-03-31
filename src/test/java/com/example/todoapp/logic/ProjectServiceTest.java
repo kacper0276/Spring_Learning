@@ -2,9 +2,7 @@ package com.example.todoapp.logic;
 
 
 import com.example.todoapp.TaskConfigurationProperties;
-import com.example.todoapp.model.ProjectRepository;
-import com.example.todoapp.model.TaskGroup;
-import com.example.todoapp.model.TaskGroupRepository;
+import com.example.todoapp.model.*;
 import com.example.todoapp.model.projection.GroupReadModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -85,7 +83,7 @@ class ProjectServiceTest {
         var today = LocalDate.now().atStartOfDay(); // Tworzy datę z czasem 00:00:00.000
         // and
         var mockRepository = mock(ProjectRepository.class);
-        when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(mockRepository.findById(anyInt())).thenReturn(Optional.of(projectWith("bar", Set.of(-1, -2))));
         // and
         InMemoryGroupRepository inMemoryGroupRepository = inMemoryGroupRepository();
         int countBeforeCall = inMemoryGroupRepository.count();
@@ -99,7 +97,27 @@ class ProjectServiceTest {
         GroupReadModel result = toTest.createGroup(today, 1);
 
         // then
+        assertThat(result.getDescription()).isEqualTo("bar");
+        assertThat(result.getDeadline()).isEqualTo(today.minusDays(1));
+        assertThat(result.getTasks()).allMatch(task -> task.getDescription().equals("foo"));
         assertThat(countBeforeCall + 1).isNotEqualTo(inMemoryGroupRepository.count());
+    }
+
+    private Project projectWith(String projectDescription, Set<Integer> daysToDeadline) {
+        var result = mock(Project.class);
+        when(result.getDescription()).thenReturn(projectDescription);
+        when(result.getSteps()).thenReturn(
+                daysToDeadline.stream()
+                        .map(days -> {
+                            var step = mock(ProjectStep.class);
+                            when(step.getDescription()).thenReturn("foo");
+                            when(step.getDaysToDeadline()).thenReturn(days);
+                            return step;
+                        })
+                        .collect(Collectors.toSet())
+        );
+
+        return result;
     }
 
     private InMemoryGroupRepository inMemoryGroupRepository() {
