@@ -3,6 +3,7 @@ package com.example.todoapp.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Table(name = "projects")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,4 +23,6 @@ public class Project {
     private Set<TaskGroup> groups;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectStep> steps;
+
+
 }
