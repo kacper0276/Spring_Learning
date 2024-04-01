@@ -14,9 +14,9 @@ public class TodoAppApplication{
 		SpringApplication.run(TodoAppApplication.class, args);
 	}
 
-//	@Bean
-//	private Validator validator() {
-//		return new LocalValidatorFactoryBean();
-//	}
+	@Bean
+	Validator validator() {
+		return new LocalValidatorFactoryBean();
+	}
 	
 }
