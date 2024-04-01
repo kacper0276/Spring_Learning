@@ -40,7 +40,7 @@ class ProjectServiceTest {
 
     @Test
     @DisplayName("should throw IllegalArgumentException when configured to allow just 1 group and no groups and project for given id")
-    public void createGroup_configurationOk_And_noProjects_throwsIllegalArgumentException() {
+    void createGroup_configurationOk_And_noProjects_throwsIllegalArgumentException() {
         // given
         var mockRepository = mock(ProjectRepository.class);
         when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
@@ -58,7 +58,7 @@ class ProjectServiceTest {
 
     @Test
     @DisplayName("should throw IllegalArgumentException when configuration ok and no project for given id")
-    public void createGroup_noMultipleGroupsConfig_And_noUndoneGroupExists_And_noProjects_throwsIllegalArgumentException() {
+    void createGroup_noMultipleGroupsConfig_And_noUndoneGroupExists_And_noProjects_throwsIllegalArgumentException() {
         // given
         var mockRepository = mock(ProjectRepository.class);
         when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
@@ -78,7 +78,7 @@ class ProjectServiceTest {
 
     @Test
     @DisplayName("should create a new group from project")
-    public void createGroup_configurationOk_existingProject_createsAndSavesGroup() {
+    void createGroup_configurationOk_existingProject_createsAndSavesGroup() {
         // given
         var today = LocalDate.now().atStartOfDay(); // Tworzy datę z czasem 00:00:00.000
         // and
