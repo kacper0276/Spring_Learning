@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank(message = "Project's description must not be empty")
     private String description;

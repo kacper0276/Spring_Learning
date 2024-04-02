@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON) // Singleton - domyślna wartosc (jedna instancja dla calej aplikacji)
+//@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON) // Singleton - domyślna wartosc (jedna instancja dla calej aplikacji)
 //@RequestScope - jedna instancja na cale zadanie
 public class TaskGroupService {
-    private TaskGroupRepository repository;
-    private TaskRepository taskRepository;
+    private final TaskGroupRepository repository;
+    private final TaskRepository taskRepository;
 
     public TaskGroupService(TaskGroupRepository repository, TaskRepository taskRepository) {
         this.repository = repository;

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class ProjectStep {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank(message = "Project step's description must not be empty")
     private String description;
