@@ -2,8 +2,11 @@ package com.example.todoapp;
 
 import com.example.todoapp.model.Task;
 import com.example.todoapp.model.TaskRepository;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +15,10 @@ import java.util.*;
 @Configuration
 public class TestConfiguration {
     @Bean
+//    @Primary // Wiekszy priorytet
+//    @ConditionalOnMissingBean // Te definicje metod obowiazuja gdy nie ma zdefiniowanego innego TaskRepository
+//    @ConditionalOnBean() Jesli jakis bean istnieje to ten tez
+    @Profile({"integration", "!prod", "!local"}) // Gdy jest profil taki to to obowiazuje
     TaskRepository testRepo() {
         return new TaskRepository(){
             private Map<Integer, Task> tasks = new HashMap<>();

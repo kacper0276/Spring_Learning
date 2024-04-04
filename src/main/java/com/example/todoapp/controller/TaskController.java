@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,14 @@ import java.util.List;
 
 //@RepositoryRestController
 @RestController
-@AllArgsConstructor
 public class TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository taskRepository;
+
+//  @Qualifier("sqlTaskRepository") - skad wstrzykujemy beana w konstruktorze
+    public TaskController(final TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @RequestMapping(method = RequestMethod.GET, path = "/tasks", params = {"!sort", "!page", "!size"}) // Pewność że nie zostały wykorzystane te parametry
     ResponseEntity<List<Task>> readAllTasks() {
