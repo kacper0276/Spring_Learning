@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,9 @@ public class TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository taskRepository;
 
+    // @Lazy - zaciąganie zalezności kiedy sa potrzebne
 //  @Qualifier("sqlTaskRepository") - skad wstrzykujemy beana w konstruktorze
-    public TaskController(final TaskRepository taskRepository) {
+    public TaskController(@Lazy final TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
