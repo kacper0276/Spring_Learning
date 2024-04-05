@@ -24,7 +24,7 @@ public class TaskController {
 
     // @Lazy - zaciąganie zalezności kiedy sa potrzebne
 //  @Qualifier("sqlTaskRepository") - skad wstrzykujemy beana w konstruktorze
-    public TaskController(final TaskRepository taskRepository) {
+    public TaskController(  final TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
