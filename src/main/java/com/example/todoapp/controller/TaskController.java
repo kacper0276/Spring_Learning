@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 //@RepositoryRestController
 @RestController
@@ -40,21 +41,26 @@ public class TaskController {
         return ResponseEntity.ok(taskRepository.findAll(page).getContent()); // Jak bez .getContent() to zwraca informację o paginacji (ile el na strone, która strona i zamiast List<Task> zwraca Page<Task>
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/tasks/{id}")
+    ResponseEntity<Optional<Task>> readTaskById(@PathVariable int id) {
+        return ResponseEntity.ok(taskRepository.findById(id));
+    }
+
     @RequestMapping(method = RequestMethod.POST, path = "/tasks")
     ResponseEntity<?> createTask(@RequestBody Task task) {
         logger.info("Create task");
         return ResponseEntity.ok(taskRepository.save(task));
     }
 
-        @RequestMapping(method = RequestMethod.PUT, path = "/tasks/{id}")
-        ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate) { // zamiast @Param można użyć @PathVariable("id") int id
-            taskRepository.findById(id)
-                    .ifPresent(task -> {
-                        task.updateFrom(toUpdate);
-                        taskRepository.save(task);
-                    });
-            return ResponseEntity.noContent().build();
-        }
+    @RequestMapping(method = RequestMethod.PUT, path = "/tasks/{id}")
+    ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate) { // zamiast @Param można użyć @PathVariable("id") int id
+        taskRepository.findById(id)
+                .ifPresent(task -> {
+                    task.updateFrom(toUpdate);
+                    taskRepository.save(task);
+                });
+        return ResponseEntity.noContent().build();
+    }
 
     @Transactional // Na początku transaction begin a na końcu transaction commit, jeżeli poleci exception to cała operacja się nie wykona, wszystkie zmiany wycofane, samo się zapisze, albo transactional albo repository.save() wszędzie
     @PatchMapping(path = "/tasks/{id}")

@@ -18,7 +18,6 @@ public class Task  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
     private int id;
     @Column(name = "description")
     @NotBlank(message = "Opis nie może być pusty")
