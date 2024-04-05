@@ -10,11 +10,22 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.sql.DataSource;
 import java.util.*;
 
 @Configuration
 public class TestConfiguration {
+    @Bean
+    @Primary
+    @Profile("!integration")
+    DataSource e2eTestDataSource() {
+        var result = new DriverManagerDataSource("jdbc:mysql://localhost:3306/spring", "root", "");
+        result.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        return result;
+    }
+
     @Bean
 //    @ConditionalOnMissingBean // Te definicje metod obowiazuja gdy nie ma zdefiniowanego innego TaskRepository
 //    @ConditionalOnBean() Jesli jakis bean istnieje to ten tez
