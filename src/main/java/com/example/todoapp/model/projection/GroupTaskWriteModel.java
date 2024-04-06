@@ -1,6 +1,7 @@
 package com.example.todoapp.model.projection;
 
 import com.example.todoapp.model.Task;
+import com.example.todoapp.model.TaskGroup;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ public class GroupTaskWriteModel {
     private String description;
     private LocalDateTime deadline;
 
-    Task toTask() {
-        return new Task(description, deadline);
+    Task toTask(final TaskGroup taskGroup) {
+        return new Task(description, deadline, taskGroup);
     }
 }

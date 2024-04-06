@@ -40,8 +40,15 @@ public class Task  {
     private TaskGroup group;
 
     public Task(String description, LocalDateTime deadline) {
+        this(description, deadline, null);
+    }
+
+    public Task(String description, LocalDateTime deadline, TaskGroup group) {
         this.description = description;
         this.deadline = deadline;
+        if(group != null) {
+            this.group = group;
+        }
     }
 
     public void updateFrom(final Task source) {

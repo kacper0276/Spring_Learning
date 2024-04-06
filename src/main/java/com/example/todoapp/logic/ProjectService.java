@@ -3,6 +3,8 @@ package com.example.todoapp.logic;
 import com.example.todoapp.TaskConfigurationProperties;
 import com.example.todoapp.model.*;
 import com.example.todoapp.model.projection.GroupReadModel;
+import com.example.todoapp.model.projection.GroupTaskWriteModel;
+import com.example.todoapp.model.projection.GroupWriteModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class ProjectService {
     private final ProjectRepository repository;
     private final TaskGroupRepository taskGroupRepository;
     private final TaskConfigurationProperties config;
+    private final TaskGroupService service;
 
     public List<Project> readAll() {
         return repository.findAll();
@@ -30,19 +33,21 @@ public class ProjectService {
             throw new IllegalStateException("Only one undone group from project is allowed");
         }
 
-        TaskGroup result = repository.findById(projectId)
+        return repository.findById(projectId)
                 .map(project -> {
-                   var targetGroup = new TaskGroup();
+                    var targetGroup = new GroupWriteModel();
                     targetGroup.setDescription(project.getDescription());
                     targetGroup.setTasks(
-                           project.getSteps().stream()
-                           .map(step -> new Task(step.getDescription(), deadline.plusDays(step.getDaysToDeadline())))
-                           .collect(Collectors.toSet())
-                   );
-                    targetGroup.setProject(project);
-                   return taskGroupRepository.save(targetGroup);
+                            project.getSteps().stream()
+                                    .map(step -> {
+                                        var task = new GroupTaskWriteModel();
+                                        task.setDescription(step.getDescription());
+                                        task.setDeadline(deadline.plusDays(step.getDaysToDeadline()));
+                                        return task;
+                                    })
+                                    .collect(Collectors.toSet())
+                    );
+                    return service.createGroup(targetGroup);
                 }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
-
-        return new GroupReadModel(result);
     }
 }
