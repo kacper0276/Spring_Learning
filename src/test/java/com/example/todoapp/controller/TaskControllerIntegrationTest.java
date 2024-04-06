@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TaskControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
     private TaskRepository repository;
 
