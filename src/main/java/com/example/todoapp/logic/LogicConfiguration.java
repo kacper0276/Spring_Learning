@@ -10,8 +10,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LogicConfiguration {
     @Bean // Rejestracja Beanem ProjectService
-    ProjectService projectService(final ProjectRepository respository, final TaskGroupRepository taskGroupRepository, final TaskConfigurationProperties config) {
-        return new ProjectService(respository, taskGroupRepository, config);
+    ProjectService projectService(final ProjectRepository respository,
+                                  final TaskGroupRepository taskGroupRepository,
+                                  final TaskConfigurationProperties config,
+                                  final TaskGroupService taskGroupService
+                                  ) {
+        return new ProjectService(respository, taskGroupRepository, config, taskGroupService);
     }
 
     @Bean
