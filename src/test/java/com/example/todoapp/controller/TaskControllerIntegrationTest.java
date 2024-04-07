@@ -12,7 +12,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -33,6 +35,26 @@ class TaskControllerIntegrationTest {
         // when + then
         mockMvc.perform(get("/tasks/" + id))
                 .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    void httpGet_returnsTasksList() throws Exception {
+        // given
+
+        // when + then
+        mockMvc.perform(get("/tasks"))
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    void httpPost_createNewTask() throws Exception {
+        // given
+        int sizeTasksList = repository.findAll().size();
+        int id = repository.save(new Task("Testowy", LocalDateTime.now())).getId();
+
+        // when + then
+        mockMvc.perform(get("/tasks"))
+                .andExpect(jsonPath("$.*", hasSize(sizeTasksList + 1)));
     }
 }
 
