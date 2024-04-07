@@ -31,13 +31,13 @@ public class TaskController {
         this.taskRepository = taskRepository;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/", params = {"!sort", "!page", "!size"}) // Pewność że nie zostały wykorzystane te parametry
+    @RequestMapping(method = RequestMethod.GET, path = "", params = {"!sort", "!page", "!size"}) // Pewność że nie zostały wykorzystane te parametry
     ResponseEntity<List<Task>> readAllTasks() {
         logger.warn("Exposing all the tasks!");
         return ResponseEntity.ok(taskRepository.findAll());
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/")
+    @RequestMapping(method = RequestMethod.GET, path = "")
     ResponseEntity<List<Task>> readAllTasks(Pageable page) {
         logger.info("Custom pageable");
         return ResponseEntity.ok(taskRepository.findAll(page).getContent()); // Jak bez .getContent() to zwraca informację o paginacji (ile el na strone, która strona i zamiast List<Task> zwraca Page<Task>
@@ -49,8 +49,11 @@ public class TaskController {
     }
 
     @GetMapping("/search/done")
+    ResponseEntity<List<Task>> readDoneTasks(@RequestParam(defaultValue = "true") boolean state) {
+        return ResponseEntity.ok(taskRepository.findByDone(state));
+    }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/")
+    @RequestMapping(method = RequestMethod.POST, path = "")
     ResponseEntity<Task> createTask(@RequestBody Task task) {
         logger.info("Create task");
         Task result = taskRepository.save(task);
