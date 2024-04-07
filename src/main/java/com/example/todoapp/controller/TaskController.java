@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,9 +51,10 @@ public class TaskController {
     @GetMapping("/search/done")
 
     @RequestMapping(method = RequestMethod.POST, path = "/")
-    ResponseEntity<?> createTask(@RequestBody Task task) {
+    ResponseEntity<Task> createTask(@RequestBody Task task) {
         logger.info("Create task");
-        return ResponseEntity.ok(taskRepository.save(task));
+        Task result = taskRepository.save(task);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
