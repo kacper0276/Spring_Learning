@@ -23,6 +23,7 @@ public class LoggerFilter implements Filter {
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
+        logger.info("[doFilter] 2");
     }
 
 }
