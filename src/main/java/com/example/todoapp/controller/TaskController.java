@@ -1,15 +1,12 @@
 package com.example.todoapp.controller;
 
+import com.example.todoapp.logic.TaskService;
 import com.example.todoapp.model.Task;
 import com.example.todoapp.model.TaskRepository;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 //@RepositoryRestController
 @RestController
@@ -24,17 +22,19 @@ import java.util.Optional;
 public class TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
     // @Lazy - zaciąganie zalezności kiedy sa potrzebne
 //  @Qualifier("sqlTaskRepository") - skad wstrzykujemy beana w konstruktorze
-    public TaskController(  final TaskRepository taskRepository) {
+    public TaskController(final TaskRepository taskRepository, final TaskService taskService) {
         this.taskRepository = taskRepository;
+        this.taskService = taskService;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "", params = {"!sort", "!page", "!size"}) // Pewność że nie zostały wykorzystane te parametry
-    ResponseEntity<List<Task>> readAllTasks() {
+    CompletableFuture<ResponseEntity<List<Task>>> readAllTasks() {
         logger.warn("Exposing all the tasks!");
-        return ResponseEntity.ok(taskRepository.findAll());
+        return taskService.findAllAsync().thenApply(ResponseEntity::ok);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "")
