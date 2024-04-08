@@ -80,6 +80,16 @@ public class TestConfiguration {
             public List<Task> findByDoneIsTrue() {
                 return null;
             }
+
+            @Override
+            public List<Task> findByDone(boolean done) {
+                return List.of();
+            }
+
+            @Override
+            public List<Task> findAllByGroup_Id(Integer groupId) {
+                return List.of();
+            }
         };
     }
 }
