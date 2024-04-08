@@ -12,12 +12,14 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class GroupReadModel {
+    private int id;
     private String description;
 //  Deadline form the latest task in group.
     private LocalDateTime deadline;
     private Set<GroupTaskReadModel> tasks;
 
     public GroupReadModel(TaskGroup source) {
+        id = source.getId();
         description = source.getDescription();
         source.getTasks().stream()
                 .map(Task::getDeadline)

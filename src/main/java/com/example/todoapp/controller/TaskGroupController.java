@@ -29,7 +29,8 @@ public class TaskGroupController {
 
     @PostMapping
     ResponseEntity<GroupReadModel> createGroup(@RequestBody GroupWriteModel toCreate) {
-        return ResponseEntity.created(URI.create("/")).body(taskGroupService.createGroup(toCreate));
+        GroupReadModel result = taskGroupService.createGroup(toCreate);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @GetMapping
