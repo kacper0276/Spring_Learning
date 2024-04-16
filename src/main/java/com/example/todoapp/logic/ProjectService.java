@@ -5,6 +5,7 @@ import com.example.todoapp.model.*;
 import com.example.todoapp.model.projection.GroupReadModel;
 import com.example.todoapp.model.projection.GroupTaskWriteModel;
 import com.example.todoapp.model.projection.GroupWriteModel;
+import com.example.todoapp.model.projection.ProjectWriteModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ProjectService {
         return repository.findAll();
     }
 
-    public Project save(final Project toSave) {
+    public Project save(final ProjectWriteModel toSave) {
         return repository.save(toSave);
     }
 
