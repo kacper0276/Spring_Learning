@@ -10,5 +10,5 @@ public interface ProjectRepository {
 
     Optional<Project> findById(Integer id);
 
-    Project save(ProjectWriteModel entity);
+    Project save(Project entity);
 }

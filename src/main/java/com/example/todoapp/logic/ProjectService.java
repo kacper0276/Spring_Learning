@@ -26,7 +26,7 @@ public class ProjectService {
     }
 
     public Project save(final ProjectWriteModel toSave) {
-        return repository.save(toSave);
+        return repository.save(toSave.toProject());
     }
 
     public GroupReadModel createGroup(LocalDateTime deadline, int projectId) {
