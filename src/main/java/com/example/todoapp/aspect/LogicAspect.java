@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LogicAspect {
-    @Around()
+    @Around("execution(* com.example.todoapp.logic.ProjectService.createGroup(..))")
     Object aroundProjectCreateGroup(ProceedingJoinPoint jp) { // ProceedingJoinPoint - punkt łączenia apsektu z logiką
         return jp.proceed();
     }
