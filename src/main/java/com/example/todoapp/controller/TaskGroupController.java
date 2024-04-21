@@ -21,6 +21,7 @@ import java.net.URI;
 import java.util.List;
 
 @Controller
+@IllegalExceptionsProcessing
 @RequestMapping("/groups")
 public class TaskGroupController {
     private static final Logger logger = LoggerFactory.getLogger(TaskGroupController.class);
