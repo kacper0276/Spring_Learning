@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -22,12 +23,16 @@ public class LogicAspect {
         projectCreateGroupTimer = registry.timer("logic.product.create.group");
     }
 
-    @Before("execution(* com.example.todoapp.logic.ProjectService.createGroup(..))")
+    @Pointcut("execution(* com.example.todoapp.logic.ProjectService.createGroup(..))")
+    void projectServiceCreateGroup() {
+    }
+
+    @Before("projectServiceCreateGroup()")
     void logMethodCall(JoinPoint joinPoint) {
         logger.info("Before {} with {}", joinPoint.getSignature().getName(), joinPoint.getArgs());
     }
 
-    @Around("execution(* com.example.todoapp.logic.ProjectService.createGroup(..))")
+    @Around("projectServiceCreateGroup()")
     Object aroundProjectCreateGroup(ProceedingJoinPoint jp) { // ProceedingJoinPoint - punkt łączenia apsektu z logiką
         return projectCreateGroupTimer.record(() -> {
             try {
