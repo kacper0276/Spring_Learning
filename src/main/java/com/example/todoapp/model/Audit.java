@@ -12,12 +12,8 @@ import java.time.LocalDateTime;
 //@MappedSuperclass // Oznacza że to klasa bazowa
 @Embeddable // Oznacza że ta klasa jest do osadzenie w innym miejscu
 public class Audit {
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     private LocalDateTime createdOn;
 
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     private LocalDateTime updatedOn;
 
     @PrePersist
