@@ -3,21 +3,20 @@ package com.example.todoapp.security;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
-import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 @KeycloakConfiguration
-public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
     @Bean
-    KeycloakSpringBootConfigResolver keycloakConfigResolver() {
+    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
     }
 
@@ -26,35 +25,25 @@ public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter 
         var authorityMapper = new SimpleAuthorityMapper();
         authorityMapper.setPrefix("ROLE_");
         authorityMapper.setConvertToUpperCase(true);
-        KeycloakAuthenticationProvider keycloakProvider = keycloakAuthenticationProvider();
+        KeycloakAuthenticationProvider keycloakProvider = new KeycloakAuthenticationProvider();
         keycloakProvider.setGrantedAuthoritiesMapper(authorityMapper);
         auth.authenticationProvider(keycloakProvider);
     }
 
-    @Override
+    @Bean
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                 authorize ->
                         authorize.requestMatchers("/info/*").hasRole("USER")
                                 .anyRequest().permitAll()
         );
+
+        return http.build();
     }
 
-    // Domyślne implementacje
-
-    @Override
-    public void init(WebSecurity builder) throws Exception {
-
-    }
-
-    @Override
-    public void configure(WebSecurity builder) throws Exception {
-
-    }
 }
