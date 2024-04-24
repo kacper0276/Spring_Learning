@@ -7,11 +7,13 @@ import com.example.todoapp.model.projection.ProjectWriteModel;
 import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,9 +27,13 @@ public class ProjectController {
     }
 
     @GetMapping
-    String showProjects(Model model) {
-        model.addAttribute("project", new ProjectWriteModel());
-        return "projects";
+    String showProjects(Model model, Authentication authentication, Principal principal) {
+        // Principal - bazowe informacje o nazwie użytkownika
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            model.addAttribute("project", new ProjectWriteModel());
+            return "projects";
+        }
+        return "index";
     }
 
     // BindingResult - mówi czy kolejny w kolejności argument miał jakiś error
