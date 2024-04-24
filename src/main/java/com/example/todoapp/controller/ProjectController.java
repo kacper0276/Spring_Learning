@@ -29,11 +29,11 @@ public class ProjectController {
     @GetMapping
     String showProjects(Model model, Authentication authentication, Principal principal) {
         // Principal - bazowe informacje o nazwie użytkownika
-        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+//        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             model.addAttribute("project", new ProjectWriteModel());
             return "projects";
-        }
-        return "index";
+//        }
+//        return "index";
     }
 
     // BindingResult - mówi czy kolejny w kolejności argument miał jakiś error
