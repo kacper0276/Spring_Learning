@@ -7,6 +7,7 @@ import com.example.todoapp.model.projection.ProjectWriteModel;
 import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
 @RequestMapping("/projects")
 public class ProjectController {
     private final ProjectService projectService;
